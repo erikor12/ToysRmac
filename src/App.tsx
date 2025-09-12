@@ -2,6 +2,10 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import NavBar from './components/navbar'
 import Home from './pages/home'
+import AboutPage from './pages/about'
+import NotFoundPage from './pages/notfound'
+import BKToysPage from './pages/bktoys'
+import MCToysPage from './pages/mctoys'
 
 function App() {
 
@@ -10,9 +14,10 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/productos" element={<Productos />} />
-        <Route path="/productos/:id" element={<ProductDetail />} /> */}
-        <Route path="*" element={<h1>404 Not Found</h1>} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/bktoys" element={<BKToysPage />} />
+        <Route path="/mctoys" element={<MCToysPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   )
