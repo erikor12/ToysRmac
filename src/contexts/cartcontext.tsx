@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, useMemo } from 'react';
+import { createContext, useContext, useState, useMemo, useEffect } from 'react';
 
-// Minimal Product type — replace or import your real Product definition
 interface Product {
     id: string | number;
     name?: string;
@@ -12,9 +11,10 @@ type CartContextType = {
     addToCart: (product: Product) => void;
     removeFromCart: (productId: Product['id']) => void;
     cleanCart: () => void;
+    totalItems: number;
+    totalPrice: number;
 };
 
-// createContext should receive a typed default (undefined is fine when using a guard in the hook)
 export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const useCart = () => {
@@ -24,7 +24,14 @@ export const useCart = () => {
 };
 
 export function CartProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-    const [cart, setCart] = useState<Product[]>([]);
+    const [cart, setCart] = useState<Product[]>(() => {
+        const storedCart = sessionStorage.getItem('cart');
+        return storedCart ? JSON.parse(storedCart) : [];
+    });
+
+    useEffect(() => {
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
 
     const addToCart = (product: Product) => {
         setCart(prevCart => [...prevCart, product]);
@@ -38,9 +45,11 @@ export function CartProvider({ children }: Readonly<{ children: React.ReactNode 
         setCart([]);
     };
 
-    // memoize the value so the provider doesn't provide a new object each render
+    const totalItems = cart.length;
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price || 0), 0);
+
     const value = useMemo(
-        () => ({ cart, addToCart, removeFromCart, cleanCart }),
+        () => ({ cart, addToCart, removeFromCart, cleanCart, totalItems, totalPrice }),
         [cart]
     );
 

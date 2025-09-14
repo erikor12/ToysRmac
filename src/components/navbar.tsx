@@ -7,7 +7,7 @@ function NavBar() {
         <nav style={{ padding: "10px", backgroundColor: "#f0f0f0" }}>
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
-            | <Link to="/Carrito">Carrito ({cart.length})</Link>
+            <Link to="/cart">Carrito ({cart.length})</Link>
         </nav>
     );
 }
