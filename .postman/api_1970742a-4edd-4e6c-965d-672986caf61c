@@ -9,9 +9,13 @@ id = 1970742a-4edd-4e6c-965d-672986caf61c
 
 [config.relations.collections]
 rootDirectory = API
+files[] = {"id":"48543445-951ed769-bab6-4824-bb49-55f317310fbe","path":"New Collection.json","metaData":{}}
 
 [config.relations.collections.metaData]
 
 [config.relations.apiDefinition]
+files[] = {"path":"index.json","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
+type = openapi:3
+rootFiles[] = index.json
