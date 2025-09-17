@@ -1,46 +1,25 @@
 .homeh1 {
-    max-width: 100%;
+    width: fit-content;
     margin: 0 auto;
     padding: 2rem;
-    text-align: right;
-    right: 1000px;
+    text-align: center;
 }
 
 .homep {
-    max-width: 100%;
+    width: 80%;
     margin: 0 auto;
     padding: 2px;
     text-align: center;
-    right: 1000px;
 }
 
-.homebk {
-    /* max-width: 100%; */
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    text-align: center;
-    font-weight: 500px;
-    color: #646cff;
-    text-decoration: inherit;
-    padding-left: 115px;
-    padding-right: 115px;
-
-}
-
+.homebk,
 .homemc {
-    /* max-width: 100%; */
+    width: fit-content;
     margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
     text-align: center;
-    font-weight: 500px;
+    font-weight: 500;
     color: #646cff;
     text-decoration: inherit;
-    padding-left: 115px;
-    padding-right: 115px;
 }
 
 .paddingTop {
