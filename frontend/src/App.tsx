@@ -1,12 +1,12 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import NavBar from './components/navbar'
-import Home from './pages/home'
+import NavBar from './components/navbar/navbar'
+import Home from './pages/home/home'
 import AboutPage from './pages/about'
 import NotFoundPage from './pages/notfound'
 import BKToysPage from './pages/bktoys'
 import MCToysPage from './pages/mctoys'
-import Cart from './components/Cart/cart'
+import Cart from './components/cart/cart'
 import ProductDetail from './pages/productdetails'
 
 function App() {

@@ -1,0 +1,16 @@
+.Nav{
+    background-color: antiquewhite;
+    padding: 20px;
+    width: 103.65%;
+    position: fixed;
+    z-index: 2;
+    text-align: center;
+}
+.links{
+    margin: 0 auto;
+    padding-left: 200px;
+    padding-right: 200px;
+    font-weight: 500px;
+    color: #646cff;
+    text-decoration: inherit;
+}
