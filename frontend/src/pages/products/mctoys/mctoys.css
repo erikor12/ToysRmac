@@ -1,4 +1,4 @@
-.homeContent {
+.mctoysContent {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@
     padding-top: 80px;
 }
 
-.homeLinks {
+.mctoysLinks {
     display: flex;
     justify-content: center;
     gap: 400px;

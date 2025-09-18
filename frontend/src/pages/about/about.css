@@ -1,4 +1,4 @@
-.homeContent {
+.aboutContent {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,8 +9,7 @@
     box-sizing: border-box;
 }
 
-.homeh1,
-.homep {
+.abouth1, .aboutp {
     width: fit-content;
     margin: 20px;
 }

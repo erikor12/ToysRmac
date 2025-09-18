@@ -7,9 +7,9 @@ function MCToysPage() {
     ];
     return (
         <>
-            <div id="mc" className="homeContent">
+            <div id="mc" className="mctoysContent">
                 <h1>Welcome to the McDonalds Page</h1>
-                <div className="homeLinks">
+                <div className="mctoysLinks">
                     {
                         productos.map(producto => (
                             <div key={producto.id}>

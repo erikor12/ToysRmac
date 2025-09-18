@@ -3,9 +3,9 @@ import "../about/about.css";
 function Home() {
     return (
         <div>
-            <div className="homeContent">
-                <h1 className="homeh1">About us</h1>
-                <p className="homep">Welcome to our e-commerce store!</p>
+            <div className="aboutContent">
+                <h1 className="abouth1">About us</h1>
+                <p className="aboutp">Welcome to our e-commerce store!</p>
             </div>
         </div>
     );
