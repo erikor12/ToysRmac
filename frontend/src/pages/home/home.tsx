@@ -7,7 +7,7 @@ function Home() {
             <div className="homeContent">
                 <h1 className="homeh1">Welcome to ToysRmac!</h1>
                 <p className="homep">Your one-stop shop for all things toys.</p>
-                <nav>
+                <nav className="homeLinks">
                     <Link className="homebk" to="/bktoys">Burger King Toys</Link>
                     <Link className="homemc" to="/mctoys">McDonald's Toys</Link>
                 </nav>
