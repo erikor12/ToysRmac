@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../bktoys/bktoys.css";
 
 function BKToysPage() {
     const productos = [
@@ -7,9 +8,9 @@ function BKToysPage() {
     ];
     return (
         <>
-            <div  className="p-6">
-                <h1 className="text-3xl font-bold mb-6 text-center">Welcome to the Burger King Page</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="homeContent">
+                <h1>Welcome to the Burger King Page</h1>
+                <div className="homeLinks">
                     {
                         productos.map(producto => (
                             <div key={producto.id}>

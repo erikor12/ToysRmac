@@ -1,10 +1,11 @@
 import { useCart } from "../../contexts/cartcontext";
+import "../cart/cart.css";
 
 function Cart() {
     const { cart, removeFromCart, cleanCart, totalItems, totalPrice } = useCart();
 
     return (
-        <div>
+        <div className="paddingTop">
             <h1>Carrito</h1>
             <ul>
                 {cart.map((item) => (

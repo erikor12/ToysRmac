@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import "../mctoys/mctoys.css";
 function MCToysPage() {
     const productos = [
         { id: 1, name: "mc1", price: 100 },
@@ -7,9 +7,9 @@ function MCToysPage() {
     ];
     return (
         <>
-            <div id="mc" className="p-6">
-                <h1 className="text-3xl font-bold mb-6 text-center">Welcome to the McDonalds Page</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div id="mc" className="homeContent">
+                <h1>Welcome to the McDonalds Page</h1>
+                <div className="homeLinks">
                     {
                         productos.map(producto => (
                             <div key={producto.id}>
