@@ -8,9 +8,9 @@ function BKToysPage() {
     ];
     return (
         <>
-            <div className="homeContent">
+            <div className="bktoysContent">
                 <h1>Welcome to the Burger King Page</h1>
-                <div className="homeLinks">
+                <div className="bktoysLinks">
                     {
                         productos.map(producto => (
                             <div key={producto.id}>

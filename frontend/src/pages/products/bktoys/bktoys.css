@@ -1,4 +1,4 @@
-.homeContent {
+.bktoysContent {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@
     padding-top: 80px;
 }
 
-.homeLinks {
+.bktoysLinks {
     display: flex;
     justify-content: center;
     gap: 400px;
