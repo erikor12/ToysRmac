@@ -1,5 +1,5 @@
 import { useParams, useLocation } from "react-router-dom";
-import { useCart } from "../contexts/cartcontext";
+import { useCart } from "../../../contexts/cartcontext";
 
 type Product = {
     id: number | string;
