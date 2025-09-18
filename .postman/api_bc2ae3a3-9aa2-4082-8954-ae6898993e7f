@@ -3,15 +3,18 @@ configVersion = 1.1.0
 type = apiEntityData
 
 [config]
-id = 1970742a-4edd-4e6c-965d-672986caf61c
+id = bc2ae3a3-9aa2-4082-8954-ae6898993e7f
 
 [config.relations]
 
 [config.relations.collections]
-rootDirectory = API
+rootDirectory = postman/collections
 
 [config.relations.collections.metaData]
 
 [config.relations.apiDefinition]
+files[] = {"path":"API/index.json","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
+type = openapi:3
+rootFiles[] = API/index.json
