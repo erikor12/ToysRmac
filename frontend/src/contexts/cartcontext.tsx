@@ -6,10 +6,14 @@ interface Product {
     price?: number;
 }
 
+interface CartItem extends Product {
+    quantity: number;
+}
+
 type CartContextType = {
-    cart: Product[];
-    addToCart: (product: Product) => void;
-    removeFromCart: (productId: Product['id']) => void;
+    cart: CartItem[];
+    addToCart: (product: Product, quantity?: number) => void;
+    removeFromCart: (productId: Product['id'], quantity?: number) => void;
     cleanCart: () => void;
     totalItems: number;
     totalPrice: number;
@@ -24,7 +28,7 @@ export const useCart = () => {
 };
 
 export function CartProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-    const [cart, setCart] = useState<Product[]>(() => {
+    const [cart, setCart] = useState<CartItem[]>(() => {
         const storedCart = sessionStorage.getItem('cart');
         return storedCart ? JSON.parse(storedCart) : [];
     });
@@ -33,20 +37,41 @@ export function CartProvider({ children }: Readonly<{ children: React.ReactNode 
         sessionStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    const addToCart = (product: Product) => {
-        setCart(prevCart => [...prevCart, product]);
+    const addToCart = (product: Product, quantity: number = 1) => {
+        if (quantity <= 0) return;
+        setCart(prevCart => {
+            const idx = prevCart.findIndex(item => item.id === product.id);
+            if (idx === -1) {
+                const newItem: CartItem = { ...product, quantity };
+                return [...prevCart, newItem];
+            }
+            const newCart = [...prevCart];
+            newCart[idx] = { ...newCart[idx], quantity: newCart[idx].quantity + quantity };
+            return newCart;
+        });
     };
-
-    const removeFromCart = (productId: Product['id']) => {
-        setCart(prevCart => prevCart.filter(item => item.id !== productId));
+    const removeFromCart = (productId: Product['id'], quantity: number = 1) => {
+        if (quantity <= 0) return;
+        setCart(prevCart => {
+            const idx = prevCart.findIndex(item => item.id === productId);
+            if (idx === -1) return prevCart;
+            const item = prevCart[idx];
+            if (item.quantity > quantity) {
+                const newCart = [...prevCart];
+                newCart[idx] = { ...item, quantity: item.quantity - quantity };
+                return newCart;
+            }
+            // eliminar el item si la cantidad resultante es 0 o menor
+            return prevCart.filter((_, i) => i !== idx);
+        });
     };
 
     const cleanCart = () => {
         setCart([]);
     };
 
-    const totalItems = cart.length;
-    const totalPrice = cart.reduce((sum, item) => sum + (item.price || 0), 0);
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
 
     const value = useMemo(
         () => ({ cart, addToCart, removeFromCart, cleanCart, totalItems, totalPrice }),
