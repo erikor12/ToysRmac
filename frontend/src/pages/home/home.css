@@ -1,27 +1,28 @@
-.homeh1 {
-    width: fit-content;
-    margin: 0 auto;
-    padding: 2rem;
+.homeContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+.homeh1, .homep {
+    width: fit-content;
+    margin: 20px;
 }
 
-.homep {
-    width: 80%;
-    margin: 0 auto;
-    padding: 2px;
-    text-align: center;
+.paddingTop{
+    position: fixed;
+    padding-top: 120px;
+    margin-left: 15%;
 }
 
 .homebk,
 .homemc {
-    width: fit-content;
-    margin: 0 auto;
-    text-align: center;
     font-weight: 500;
     color: #646cff;
-    text-decoration: inherit;
-}
-
-.paddingTop {
-    padding-top: 100px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-left: 200px;
+    margin-right: 200px;
 }
