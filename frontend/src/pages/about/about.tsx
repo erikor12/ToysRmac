@@ -1,10 +1,14 @@
-function AboutPage() {
+import "../about/about.css";
+
+function Home() {
     return (
         <div>
-            <h1>About Us</h1>
-            <p>Welcome to our e-commerce store!</p>
+            <div className="homeContent">
+                <h1 className="homeh1">About us</h1>
+                <p className="homep">Welcome to our e-commerce store!</p>
+            </div>
         </div>
     );
 }
 
-export default AboutPage;
+export default Home;

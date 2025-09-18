@@ -3,7 +3,7 @@ import "../home/home.css";
 
 function Home() {
     return (
-        <div className="paddingTop">
+        <div>
             <div className="homeContent">
                 <h1 className="homeh1">Welcome to ToysRmac!</h1>
                 <p className="homep">Your one-stop shop for all things toys.</p>

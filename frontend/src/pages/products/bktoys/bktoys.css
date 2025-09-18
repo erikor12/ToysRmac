@@ -6,21 +6,7 @@
     max-width: 800px;
     margin: 0 auto;
     box-sizing: border-box;
-    padding-top: 60px;
-}
-
-.homeh1,
-.homep {
-    width: fit-content;
-    margin: 20px;
-}
-
-.homebk,
-.homemc {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: none;
-    font-size: 1.1rem;
+    padding-top: 80px;
 }
 
 .homeLinks {

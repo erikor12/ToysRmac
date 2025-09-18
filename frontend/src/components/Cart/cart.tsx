@@ -1,4 +1,5 @@
 import { useCart } from "../../contexts/cartcontext";
+import "../cart/cart.css";
 
 function Cart() {
     const { cart, addToCart, removeFromCart, cleanCart, totalItems, totalPrice } = useCart();
