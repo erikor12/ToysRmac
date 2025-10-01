@@ -1,0 +1,15 @@
+.aboutContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    padding-top: 60px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.abouth1, .aboutp {
+    width: fit-content;
+    margin: 20px;
+}

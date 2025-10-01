@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
+import "../bktoys/bktoys.css";
 
-function MCToysPage() {
+function BKToysPage() {
     const productos = [
-        { id: 1, name: "mc1", price: 100 },
-        { id: 2, name: "mc2", price: 200 }
+        { id: 1, name: "bk1", price: 100 },
+        { id: 2, name: "bk2", price: 200 }
     ];
     return (
         <>
-            <div id="mc" className="p-6">
-                <h1 className="text-3xl font-bold mb-6 text-center">Welcome to the McDonalds Page</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bktoysContent">
+                <h1>Welcome to the Burger King Page</h1>
+                <div className="bktoysLinks">
                     {
                         productos.map(producto => (
                             <div key={producto.id}>
@@ -25,4 +26,4 @@ function MCToysPage() {
     );
 }
 
-export default MCToysPage;
+export default BKToysPage;
