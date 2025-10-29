@@ -6,4 +6,8 @@ router.get('/', productsController.getAll);
 
 router.get("/search", productsController.search);
 
+router.get("/mc", productsController.getMC);
+
+router.get("/bk", productsController.getBK);
+
 module.exports = router;

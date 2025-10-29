@@ -18,4 +18,28 @@ async function searchProductos(NAME) {
   return productos;
 }
 
-module.exports = { getProductos, searchProductos };
+async function getMC() {
+  const productos = await prisma.products.findMany({
+    where: {
+      STORE: {
+        contains: 'MC',
+        mode: 'insensitive',
+      },
+    },
+  });
+  return productos;
+}
+
+async function getBK() {
+  const productos = await prisma.products.findMany({
+    where: {
+      STORE: {
+        contains: 'BK',
+        mode: 'insensitive',
+      },
+    },
+  });
+  return productos;
+}
+
+module.exports = { getProductos, searchProductos, getMC, getBK };

@@ -18,7 +18,23 @@ async function search(req, res) {
         res.status(500).json({ error: err.message });
     }
 }
+async function getMC(req, res) {
+    try {
+        const data = await productService.getMC()
+        res.json(data)
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+async function getBK(req, res) {
+    try {
+        const data = await productService.getBK()
+        res.json(data)
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
 
 
 
-module.exports = { getAll, search }
+module.exports = { getAll, search, getMC, getBK }
