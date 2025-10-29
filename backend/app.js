@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 
 //importar el router
-const productosRouter = require('./src/routes/productosRoutes')
+const productsRouter = require('./src/routes/productsRoutes')
+const clientsRouter = require('./src/routes/clientsRoutes')
 
 //creo instancia de express 
 const app = express();
@@ -13,7 +14,8 @@ app.use(express.json());
 //habilitar cors PARA TODAS LAS RUTAS
 app.use(cors())
 
-app.use('/productos', productosRouter)
+app.use('/products', productsRouter)
+app.use('/clients', clientsRouter)
 
 app.listen(3000, () => {
   console.log("Server running at http://localhost:3000/");
