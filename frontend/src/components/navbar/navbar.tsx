@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useCart } from "../../contexts/cartcontext";
 import { useAuth } from "../../contexts/authcontext";
@@ -8,6 +8,8 @@ import SearchBar from "../SearchBar";
 export default function Navbar() {
     const { state: cartState, dispatch: cartDispatch } = useCart();
     const { state: authState, logout } = useAuth();
+    const navigate = useNavigate();
+
     const totalQty = cartState?.items?.reduce((s, i) => s + (i.qty || 0), 0) ?? 0;
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -45,20 +47,21 @@ export default function Navbar() {
     return (
         <header className="nav" role="banner">
             <div className="nav-inner">
-                <div className="nav-inner">
-                    <Link to="/" className="nav-brand"> <span className="nav-ikea">ToysRmac</span> </Link>
+                <div className="nav-left">
+                    <Link to="/" className="nav-brand" onClick={() => setMenuOpen(false)}>
+                        <span className="nav-ikea">ToysRmac</span>
+                    </Link>
+
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                         <SearchBar />
                     </div>
-                    <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
-                    </nav>
                 </div>
 
                 <button
                     className={`hamburger ${menuOpen ? "is-open" : ""}`}
                     aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
                     aria-expanded={menuOpen}
-                    onClick={() => setMenuOpen(v => !v)}
+                    onClick={() => setMenuOpen((v) => !v)}
                     type="button"
                 >
                     <span className="hb-line hb-line-1" />
@@ -67,56 +70,55 @@ export default function Navbar() {
                 </button>
 
                 <nav className={`nav-links ${menuOpen ? "open" : ""}`} aria-label="Navegación principal">
-                    <Link to="/mctoys" onClick={() => setMenuOpen(false)}>McDonald's</Link>
-                    <Link to="/bktoys" onClick={() => setMenuOpen(false)}>Burger King</Link>
-                    <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+                    <Link to="/mctoys" onClick={() => setMenuOpen(false)}>
+                        McDonald's
+                    </Link>
+                    <Link to="/bktoys" onClick={() => setMenuOpen(false)}>
+                        Burger King
+                    </Link>
+                    <Link to="/about" onClick={() => setMenuOpen(false)}>
+                        About
+                    </Link>
 
-                    <button
-                        className="cart-inline"
-                        onClick={() => { toggleCart(); setMenuOpen(false); }}
-                        aria-label="Abrir carrito (móvil)"
-                        type="button"
-                    >
+                    <button className="cart-inline" onClick={() => { toggleCart(); setMenuOpen(false); }} aria-label="Abrir carrito (móvil)" type="button">
                         Carrito <span className="cart-count-inline">{totalQty}</span>
                     </button>
                 </nav>
 
                 <div className="nav-actions" role="navigation" aria-label="Acciones">
-                    <button
-                        className="cart-btn"
-                        onClick={() => { console.log("cart btn clicked"); toggleCart(); }}
-                        aria-label="Abrir carrito"
-                        type="button"
-                    >
+                    <button className="cart-btn" onClick={() => toggleCart()} aria-label="Abrir carrito" type="button">
                         Carrito <span className="cart-count">{totalQty}</span>
                     </button>
 
                     <div className="nav-user" ref={userRef} aria-haspopup="menu" aria-expanded={userMenuOpen}>
                         {authState?.user ? (
                             <>
-                                <button
-                                    className="user-toggle"
-                                    onClick={() => setUserMenuOpen(s => !s)}
-                                    aria-label={userMenuOpen ? "Cerrar opciones de usuario" : "Abrir opciones de usuario"}
-                                    type="button"
-                                >
+                                <button className="user-toggle" onClick={() => setUserMenuOpen((s) => !s)} aria-label={userMenuOpen ? "Cerrar opciones de usuario" : "Abrir opciones de usuario"} type="button">
                                     <span className="user-name">Hola, {authState.user.name}</span>
-                                    <span className="user-caret" aria-hidden>▾</span>
+                                    <span className="user-caret" aria-hidden>
+                                        ▾
+                                    </span>
                                 </button>
 
                                 <div className={`user-dropdown ${userMenuOpen ? "open" : ""}`} role="menu">
-                                    <button
-                                        className="logout-btn"
-                                        onClick={() => { logout(); setUserMenuOpen(false); }}
-                                        role="menuitem"
-                                        type="button"
-                                    >
+                                    <button className="user-item" onClick={() => { setUserMenuOpen(false); navigate("/profile"); }} role="menuitem" type="button">
+                                        Mi cuenta
+                                    </button>
+
+                                    <button className="logout-btn" onClick={() => { logout(); setUserMenuOpen(false); }} role="menuitem" type="button">
                                         Cerrar sesión
                                     </button>
                                 </div>
                             </>
                         ) : (
-                            <Link to="/login" className="login-link" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
+                            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                <Link to="/register" className="btn-outline" onClick={() => setMenuOpen(false)}>
+                                    Crear cuenta
+                                </Link>
+                                <Link to="/login" className="btn-primary" onClick={() => setMenuOpen(false)}>
+                                    Iniciar sesión
+                                </Link>
+                            </div>
                         )}
                     </div>
                 </div>

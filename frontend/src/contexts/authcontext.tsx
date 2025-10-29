@@ -1,64 +1,91 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import type { ReactNode } from "react";
+import { loginB64 } from "../utils/authClientB64";
 
-type User = { id: string; name: string; email?: string };
-type State = { user: User | null; loading: boolean };
+type User = { id: string; name: string; email: string; createdAt: string } | null;
 
-type AuthContextShape = {
+type State = { user: User; ready: boolean };
+type Action =
+    | { type: "login"; payload: User }
+    | { type: "logout" }
+    | { type: "ready"; payload: boolean };
+
+const initial: State = { user: null, ready: false };
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case "login":
+            return { ...state, user: action.payload };
+        case "logout":
+            return { ...state, user: null };
+        case "ready":
+            return { ...state, ready: action.payload };
+        default:
+            return state;
+    }
+}
+
+const AuthContext = createContext<{
     state: State;
-    login: (name: string, email?: string) => Promise<void>;
+    login: (emailOrName: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+    setUser: (user: User) => void;
     logout: () => void;
-    isAuthenticated: () => boolean;
-};
+}>({
+    state: initial,
+    login: async () => ({ ok: false, error: "no impl" }),
+    setUser: () => { },
+    logout: () => { },
+});
 
-const AuthContext = createContext<AuthContextShape | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [state, setState] = useState<State>({ user: null, loading: true });
+export function AuthProvider({ children }: { children: ReactNode }) {
+    const [state, dispatch] = useReducer(reducer, initial);
 
     useEffect(() => {
+        // intentar restaurar sesión desde localStorage (si guardás token/user)
         try {
-            const raw = localStorage.getItem("auth_v1");
+            const raw = localStorage.getItem("session_user_v1");
             if (raw) {
-                setState({ user: JSON.parse(raw), loading: false });
-            } else {
-                setState({ user: null, loading: false });
+                const user = JSON.parse(raw);
+                dispatch({ type: "login", payload: user });
             }
-        } catch {
-            setState({ user: null, loading: false });
-        }
+        } catch { }
+        dispatch({ type: "ready", payload: true });
     }, []);
 
-    useEffect(() => {
+    function persist(user: User | null) {
         try {
-            if (state.user) localStorage.setItem("auth_v1", JSON.stringify(state.user));
-            else localStorage.removeItem("auth_v1");
+            if (user) localStorage.setItem("session_user_v1", JSON.stringify(user));
+            else localStorage.removeItem("session_user_v1");
         } catch { }
-    }, [state.user]);
+    }
 
-    async function login(name: string, email?: string) {
-        // Simula login; en producción reemplazar por API
-        const user = { id: String(Date.now()), name, email };
-        setState({ user, loading: false });
+    async function login(emailOrName: string, password: string) {
+        // aquí asumimos email + password; si en tu UI quieres usar name en vez de email, adapta
+        const res = await loginB64(emailOrName, password);
+        if (!res.ok) return { ok: false, error: res.error };
+        dispatch({ type: "login", payload: res.user ?? null });
+        persist(res.user ?? null);
+        return { ok: true };
+    }
+
+    function setUser(user: User) {
+        dispatch({ type: "login", payload: user });
+        persist(user);
     }
 
     function logout() {
-        setState({ user: null, loading: false });
-    }
-
-    function isAuthenticated() {
-        return !!state.user;
+        dispatch({ type: "logout" });
+        persist(null);
     }
 
     return (
-        <AuthContext.Provider value={{ state, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ state, login, setUser, logout }}>
             {children}
         </AuthContext.Provider>
     );
-};
+}
 
 export function useAuth() {
-    const ctx = useContext(AuthContext);
-    if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-    return ctx;
+    return useContext(AuthContext);
 }
 

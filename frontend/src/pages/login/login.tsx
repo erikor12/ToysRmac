@@ -4,10 +4,11 @@ import { useAuth } from "../../contexts/authcontext";
 import "./login.css";
 
 export default function Login() {
-    const { login } = useAuth();
-    const [name, setName] = useState("");
+    const auth = useAuth();
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     const location = useLocation();
     const from = (location.state as any)?.from?.pathname || "/";
@@ -15,25 +16,40 @@ export default function Login() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setSubmitting(true);
-        await login(name || "User", email || undefined);
-        setSubmitting(false);
-        navigate(from, { replace: true });
+        setError(null);
+        try {
+            const res = await auth.login(email.trim(), password);
+            if (!res.ok) {
+                setError(res.error || "Credenciales inválidas");
+                return;
+            }
+            navigate(from, { replace: true });
+        } catch (err) {
+            setError("Error al autenticar");
+        } finally {
+            setSubmitting(false);
+        }
     }
 
     return (
         <main className="login-page">
             <div className="login-card">
                 <h1>Iniciar sesión</h1>
-                <p>Iniciá sesión para completar tus compras.</p>
+                <p>Ingresá con tu cuenta creada previamente.</p>
+
                 <form onSubmit={handleSubmit}>
                     <label>
-                        Nombre
-                        <input value={name} onChange={(e) => setName(e.target.value)} required />
+                        Email
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
                     </label>
+
                     <label>
-                        Email (opcional)
-                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" />
+                        Contraseña
+                        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
                     </label>
+
+                    {error && <div style={{ color: "crimson", marginTop: 8 }}>{error}</div>}
+
                     <div className="login-actions">
                         <button type="submit" disabled={submitting}>{submitting ? "Entrando..." : "Entrar"}</button>
                     </div>
@@ -42,4 +58,3 @@ export default function Login() {
         </main>
     );
 }
-
