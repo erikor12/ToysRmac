@@ -1,10 +1,95 @@
-.notfoundContent {
+.nf-root {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding-top: 80px;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 2rem;
+    background: transparent
+}
+
+.nf-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 18px 40px rgba(6, 18, 33, 0.08);
+    text-align: left
+}
+
+.nf-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px
+}
+
+.nf-title {
+    font-size: 3.25rem;
+    color: #0058A3;
+    margin: 0
+}
+
+.nf-sub {
+    margin: 0;
+    color: #405a6b;
+    font-weight: 700
+}
+
+.nf-body {
+    margin-top: 16px;
+    color: #0b1a2b
+}
+
+.nf-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.nf-btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700
+}
+
+.nf-btn-primary {
+    background: #0058A3;
+    color: #fff
+}
+
+.nf-btn-ghost {
+    background: transparent;
+    border: 1px solid #e6eef6;
+    color: #0058A3;
+    padding: 9px 12px;
+    border-radius: 8px
+}
+
+.nf-footer {
+    margin-top: 18px;
+    color: #6b7c88;
+    font-size: .85rem
+}
+
+@media (max-width:560px) {
+    .nf-card {
+        padding: 18px
+    }
+
+    .nf-title {
+        font-size: 2.25rem
+    }
+
+    .nf-actions {
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .nf-btn {
+        width: 100%
+    }
 }

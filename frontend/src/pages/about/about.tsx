@@ -1,14 +1,31 @@
-import "../about/about.css";
+import React from "react";
+import "./about.css";
 
-function Home() {
+export default function About() {
     return (
-        <div>
-            <div className="aboutContent">
-                <h1 className="abouth1">About us</h1>
-                <p className="aboutp">Welcome to our e-commerce store!</p>
+        <section className="about-page">
+            <div className="about-inner">
+                <header className="about-header">
+                    <h1>Nuestra colección</h1>
+                    <p>Curada con foco en jugabilidad y exhibición. Inspirada en el lenguaje de diseño IKEA: limpieza, jerarquía y usabilidad.</p>
+                </header>
+
+                <div className="about-grid">
+                    <article className="about-card">
+                        <h3>Calidad</h3>
+                        <p>Materiales duraderos, piezas con detalle y embalaje pensado para coleccionistas.</p>
+                    </article>
+                    <article className="about-card">
+                        <h3>Series limitadas</h3>
+                        <p>Lanzamientos periódicos y numerados para los coleccionistas más exigentes.</p>
+                    </article>
+                    <article className="about-card">
+                        <h3>Conservación</h3>
+                        <p>Consejos para mantener las figuras en perfecto estado y técnicas de display.</p>
+                    </article>
+                </div>
             </div>
-        </div>
+        </section>
     );
 }
 
-export default Home;

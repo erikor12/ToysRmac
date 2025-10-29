@@ -1,32 +1,74 @@
-.homeContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 800px;
+.home-hero {
+    background: linear-gradient(90deg, #f6f8fa 0, #ffffff 100%);
+    padding: 2.5rem 1rem;
+}
+
+.hero-inner {
+    max-width: 1100px;
     margin: 0 auto;
-    box-sizing: border-box;
-    padding-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
 }
 
-.homeh1,
-.homep {
-    width: fit-content;
-    margin: 20px;
+.hero-left h1 {
+    font-size: 2rem;
+    color: #0b1a2b;
+    margin: 0 0 0.6rem 0;
 }
 
-.homebk,
-.homemc {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: none;
-    font-size: 1.1rem;
+.lead {
+    color: #405a6b;
+    margin: 0 0 1rem 0;
 }
 
-.homeLinks {
+.hero-actions {
     display: flex;
-    justify-content: center;
-    gap: 400px;
-    flex-wrap: wrap; 
-    margin-top: 20px;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.btn.primary {
+    background: #0058A3;
+    color: #fff;
+}
+
+.btn.outline {
+    background: #fff;
+    color: #0058A3;
+    border: 1px solid #e6eef6;
+}
+
+.btn.small {
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #ffcc00;
+    color: #0b1a2b;
+    font-weight: 800;
+}
+
+.hero-right .hero-card {
+    background: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(11, 26, 43, 0.06);
+}
+
+.hero-card h3 {
+    margin: 0 0 8px 0;
+}
+
+.hero-card ul {
+    margin: 0 0 12px 0;
+    padding-left: 16px;
+    color: #405a6b;
 }

@@ -1,30 +1,35 @@
-import './App.css'
-import { Routes, Route } from 'react-router-dom'
-import NavBar from './components/navbar/navbar'
-import Home from './pages/home/home'
-import AboutPage from './pages/about/about'
-import NotFoundPage from './pages/notfound/notfound'
-import BKToysPage from './pages/products/bktoys/bktoys'
-import MCToysPage from './pages/products/mctoys/mctoys'
-import Cart from './components/cart/cart'
-import ProductDetail from './pages/products/productdetails/productdetails'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/navbar/navbar";
+import Cart from "./components/cart/cart";
+import Home from "./pages/home/home";
+import About from "./pages/about/about";
+import McToys from "./pages/products/mctoys/mctoys";
+import BKToys from "./pages/products/bktoys/bktoys";
+import ProductDetails from "./pages/products/productdetails/productdetails";
+import NotFound from "./pages/notfound/notfound";
+import Login from "./pages/login/login";
+import Checkout from "./pages/checkout/checkout";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import "./App.css";
 
-function App() {
-
+export default function App() {
   return (
     <>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/bktoys" element={<BKToysPage />} />
-        <Route path="/mctoys" element={<MCToysPage />} />
-        <Route path="/productos/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <Navbar />
+      <main className="app-container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/mctoys" element={<McToys />} />
+          <Route path="/bktoys" element={<BKToys />} />
+          <Route path="/product/:brand/:id" element={<ProductDetails />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+        </Routes>
+      </main>
+      <Cart />
     </>
-  )
+  );
 }
-
-export default App

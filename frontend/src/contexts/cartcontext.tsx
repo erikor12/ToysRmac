@@ -1,82 +1,105 @@
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 
-interface Product {
-    id: string | number;
-    name?: string;
-    price?: number;
-}
+type Product = { id: string; brand?: string; title: string; price: number; img?: string };
+type CartItem = Product & { qty: number };
 
-interface CartItem extends Product {
-    quantity: number;
-}
-
-type CartContextType = {
-    cart: CartItem[];
-    addToCart: (product: Product, quantity?: number) => void;
-    removeFromCart: (productId: Product['id'], quantity?: number) => void;
-    cleanCart: () => void;
-    totalItems: number;
-    totalPrice: number;
+type State = {
+    items: CartItem[];
+    drawerOpen: boolean;
 };
 
-export const CartContext = createContext<CartContextType | undefined>(undefined);
+type Action =
+    | { type: "add"; product: Product }
+    | { type: "dec"; id: string }
+    | { type: "remove"; id: string }
+    | { type: "clear" }
+    | { type: "open" }
+    | { type: "close" }
+    | { type: "toggle" }
+    | { type: "set"; state: State };
 
-export const useCart = () => {
-    const ctx = useContext(CartContext);
-    if (!ctx) throw new Error('useCart must be used within a CartProvider');
-    return ctx;
-};
+const INITIAL: State = { items: [], drawerOpen: false };
 
-export function CartProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-    const [cart, setCart] = useState<CartItem[]>(() => {
-        const storedCart = sessionStorage.getItem('cart');
-        return storedCart ? JSON.parse(storedCart) : [];
+const CartContext = createContext<{ state: State; dispatch: React.Dispatch<Action> } | undefined>(undefined);
+
+function reducer(state: State, action: Action): State {
+    console.log("CART ACTION:", action, "BEFORE:", state);
+    switch (action.type) {
+        case "add": {
+            const idx = state.items.findIndex(i => i.id === action.product.id);
+            if (idx >= 0) {
+                const items = state.items.slice();
+                items[idx] = { ...items[idx], qty: items[idx].qty + 1 };
+                const next = { ...state, items };
+                console.log("CART NEXT:", next);
+                return next;
+            }
+            const next = { ...state, items: [...state.items, { ...action.product, qty: 1 }] };
+            console.log("CART NEXT:", next);
+            return next;
+        }
+        case "dec": {
+            const items = state.items
+                .map(i => (i.id === action.id ? { ...i, qty: i.qty - 1 } : i))
+                .filter(i => i.qty > 0);
+            const next = { ...state, items };
+            console.log("CART NEXT:", next);
+            return next;
+        }
+        case "remove": {
+            const next = { ...state, items: state.items.filter(i => i.id !== action.id) };
+            console.log("CART NEXT:", next);
+            return next;
+        }
+        case "clear": {
+            const next = { ...state, items: [] };
+            console.log("CART NEXT:", next);
+            return next;
+        }
+        case "open":
+            return { ...state, drawerOpen: true };
+        case "close":
+            return { ...state, drawerOpen: false };
+        case "toggle":
+            console.log("TOGGLE ->", !state.drawerOpen);
+            return { ...state, drawerOpen: !state.drawerOpen };
+        case "set":
+            return action.state;
+        default:
+            return state;
+    }
+}
+
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, INITIAL, initial => {
+        try {
+            const raw = localStorage.getItem("cart_v1");
+            return raw ? { ...initial, ...(JSON.parse(raw) as Partial<State>) } : initial;
+        } catch {
+            return initial;
+        }
     });
 
     useEffect(() => {
-        sessionStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
+        try {
+            // persist only items, keep drawer closed on reload
+            localStorage.setItem("cart_v1", JSON.stringify({ items: state.items }));
+        } catch { }
+    }, [state.items]);
 
-    const addToCart = (product: Product, quantity: number = 1) => {
-        if (quantity <= 0) return;
-        setCart(prevCart => {
-            const idx = prevCart.findIndex(item => item.id === product.id);
-            if (idx === -1) {
-                const newItem: CartItem = { ...product, quantity };
-                return [...prevCart, newItem];
-            }
-            const newCart = [...prevCart];
-            newCart[idx] = { ...newCart[idx], quantity: newCart[idx].quantity + quantity };
-            return newCart;
-        });
-    };
-    const removeFromCart = (productId: Product['id'], quantity: number = 1) => {
-        if (quantity <= 0) return;
-        setCart(prevCart => {
-            const idx = prevCart.findIndex(item => item.id === productId);
-            if (idx === -1) return prevCart;
-            const item = prevCart[idx];
-            if (item.quantity > quantity) {
-                const newCart = [...prevCart];
-                newCart[idx] = { ...item, quantity: item.quantity - quantity };
-                return newCart;
-            }
-            // eliminar el item si la cantidad resultante es 0 o menor
-            return prevCart.filter((_, i) => i !== idx);
-        });
-    };
+    return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
+};
 
-    const cleanCart = () => {
-        setCart([]);
-    };
-
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
-
-    const value = useMemo(
-        () => ({ cart, addToCart, removeFromCart, cleanCart, totalItems, totalPrice }),
-        [cart]
-    );
-
-    return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+export function useCart() {
+    const ctx = useContext(CartContext);
+    if (!ctx) {
+        console.error("useCart usado fuera de CartProvider - devolviendo stub seguro");
+        // fallback seguro para evitar crash en dev mientras diagnosticas
+        return {
+            state: { items: [], drawerOpen: false },
+            dispatch: () => { }
+        };
+    }
+    return ctx;
 }
+

@@ -1,28 +1,33 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import "../mctoys/mctoys.css";
-function MCToysPage() {
-    const productos = [
-        { id: 1, name: "mc1", price: 100 },
-        { id: 2, name: "mc2", price: 200 }
-    ];
+import "./mctoys.css";
+import { useCart } from "../../../contexts/cartcontext";
+
+const PRODUCTS = [
+    { id: "m1", title: "Mcd Happy Toy 1", price: 6.5, img: "" },
+    { id: "m2", title: "Mcd Happy Toy 2", price: 5.0, img: "" },
+];
+
+export default function McToys() {
+    const { dispatch } = useCart();
     return (
-        <>
-            <div id="mc" className="mctoysContent">
-                <h1>Welcome to the McDonalds Page</h1>
-                <div className="mctoysLinks">
-                    {
-                        productos.map(producto => (
-                            <div key={producto.id}>
-                                <Link to={`/productos/${producto.id}`} state={producto}>
-                                    <h2>{producto.name}</h2>
-                                </Link>
-                            </div>
-                        ))
-                    }
-                </div>
+        <section className="brand-page">
+            <h2>McDonald's Toys Collection</h2>
+            <p className="brand-lead">Figuras y coleccionables de McDonald's, seleccionadas para exhibición y juego.</p>
+            <div className="grid">
+                {PRODUCTS.map((p) => (
+                    <article key={p.id} className="card">
+                        <div className="thumb" />
+                        <h3>{p.title}</h3>
+                        <p className="price">${p.price.toFixed(2)}</p>
+                        <div className="actions">
+                            <button onClick={() => dispatch({ type: "add", product: { ...p, brand: "mctoys" } })}>Add</button>
+                            <Link to={`/product/mctoys/${p.id}`} className="details">Detalles</Link>
+                        </div>
+                    </article>
+                ))}
             </div>
-        </>
+        </section>
     );
 }
 
-export default MCToysPage;
