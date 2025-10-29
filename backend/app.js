@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 
 //importar el router
 const productosRouter = require('./src/routes/productosRoutes')
