@@ -1,0 +1,64 @@
+.da-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(3, 8, 18, 0.48);
+    z-index: 120
+}
+
+.da-card {
+    width: min(680px, 92%);
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 18px 40px rgba(6, 18, 33, 0.12)
+}
+
+.da-header {
+    margin-bottom: 8px
+}
+
+.da-title {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #0b1a2b
+}
+
+.da-body {
+    color: #334155;
+    margin: 8px 0
+}
+
+.da-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 12px
+}
+
+.da-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700
+}
+
+.da-btn-ghost {
+    background: transparent;
+    border: 1px solid #e6eef6;
+    color: #0b1a2b
+}
+
+.da-btn-primary {
+    background: #0058A3;
+    color: #fff
+}
+
+@media(max-width:520px) {
+    .da-card {
+        padding: 14px
+    }
+}

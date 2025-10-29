@@ -194,3 +194,18 @@
     border: 1px solid #e6eef6;
     display: inline-block;
 }
+
+.cart-popup {
+    /* propiedades existentes */
+    margin-top: 12px;
+    /* para forzar separación cuando se renderiza debajo de otro elemento */
+}
+
+/* si en pantallas pequeñas necesitas más separación */
+@media (max-width: 720px) {
+    .cart-popup {
+        top: 88px;
+        right: 10px;
+        width: calc(100% - 20px);
+    }
+}
