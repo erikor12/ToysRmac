@@ -19,5 +19,6 @@ model products {
   STORE     String
   NAME      String?
   YEAR      Int?
-  VALUE     String?
+  VALUE     Int?
+  DESC      String?
 }

@@ -3,19 +3,7 @@ import { useSearch } from "../contexts/searchcontext";
 import { useNavigate } from "react-router-dom";
 import "./searchbar-with-results.css";
 
-// Mock product data (local fallback to avoid missing module)
-const mctoys: { id: string; title: string; price?: number; short?: string }[] = [
-    { id: "m1", title: "Mc Happy Toy Astronauta", price: 7.0, short: "Astronauta" },
-    { id: "m2", title: "Mc Happy Toy Pirata", price: 8.0, short: "Pirata" },
-    { id: "m3", title: "Mc Happy Toy Evangelion", price: 99.99, short: "EVA-01" },
-];
-
-const bktoys: { id: string; title: string; price?: number; short?: string }[] = [
-    { id: "b1", title: "BK King Robot", price: 7.0, short: "Robot" },
-    { id: "b2", title: "BK King Dragon", price: 8.0, short: "Dragging deez nuts" },
-    { id: "b3", title: "BK King Sonic", price: 9.0, short: "El herizo azul" },
-];
-
+// products are fetched from the API and normalized to this shape
 type Item = { id: string; title: string; price?: number; short?: string; source: "mctoys" | "bktoys" };
 
 export default function SearchBar() {
@@ -23,6 +11,8 @@ export default function SearchBar() {
     const [local, setLocal] = useState(query);
     const [open, setOpen] = useState(false);
     const [results, setResults] = useState<Item[]>([]);
+    const [mctoys, setMctoys] = useState<Item[]>([]);
+    const [bktoys, setBktoys] = useState<Item[]>([]);
     const ref = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -63,12 +53,47 @@ export default function SearchBar() {
                         (it.short ?? "").toLowerCase().includes(q)
                 );
 
-        const r1 = searchIn(mctoys, "mctoys");
-        const r2 = searchIn(bktoys, "bktoys");
+    const r1 = searchIn(mctoys, "mctoys");
+    const r2 = searchIn(bktoys, "bktoys");
 
         // juntar y limitar (ej: 6 por colección)
         setResults([...r1.slice(0, 6), ...r2.slice(0, 6)]);
     }, [local]);
+
+    // Fetch products once and split by STORE
+    useEffect(() => {
+        fetch("http://localhost:3000/products/")
+            .then((res) => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then((data) => {
+                let all: any[] = [];
+                if (Array.isArray(data)) all = data;
+                else if (data && Array.isArray(data.products)) all = data.products;
+
+                const m: Item[] = [];
+                const b: Item[] = [];
+                for (const p of all) {
+                    const item: Item = {
+                        id: String(p.ID ?? p.id ?? (p.ID?.toString ? p.ID.toString() : p.ID)),
+                        title: p.NAME ?? p.title ?? p.name ?? "",
+                        price: Number(p.VALUE ?? p.price ?? 0),
+                        short: p.YEAR ? String(p.YEAR) : p.desc ?? p.DESC ?? "",
+                        source: ((p.STORE || p.store || "").toString().toUpperCase() === "BK") ? "bktoys" : "mctoys",
+                    } as Item;
+
+                    if (item.source === "bktoys") b.push(item);
+                    else m.push(item);
+                }
+
+                setMctoys(m);
+                setBktoys(b);
+            })
+            .catch(() => {
+                // keep arrays empty on error — search will fallback to empty
+            });
+    }, []);
 
     // Cuando el usuario selecciona un resultado: seteamos query global y navegamos
     function handleSelect(item: Item) {

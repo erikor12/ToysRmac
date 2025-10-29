@@ -55,7 +55,7 @@ export default function MCToys() {
                         />
                         <h3>{p.title ?? p.NAME ?? p.name}</h3>
                         <p className="price">${(p.price ?? p.VALUE ?? 0).toString()}</p>
-                        <p className="card-desc">{p.desc ?? p.DESCRIPTION ?? p.NAME}</p>
+                        <p className="card-desc">{p.desc ?? p.DESC ?? p.NAME}</p>
                         <div className="actions">
                             <button
                                 onClick={() =>
