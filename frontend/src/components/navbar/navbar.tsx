@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./navbar.css";
 import { useCart } from "../../contexts/cartcontext";
 import { useAuth } from "../../contexts/authcontext";
+import SearchBar from "../SearchBar";
 
 export default function Navbar() {
     const { state: cartState, dispatch: cartDispatch } = useCart();
@@ -44,9 +45,14 @@ export default function Navbar() {
     return (
         <header className="nav" role="banner">
             <div className="nav-inner">
-                <Link to="/" className="nav-brand" aria-label="Inicio">
-                    <span className="nav-ikea">TOYS COLLECTIBLES</span>
-                </Link>
+                <div className="nav-inner">
+                    <Link to="/" className="nav-brand"> <span className="nav-ikea">ToysRmac</span> </Link>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <SearchBar />
+                    </div>
+                    <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+                    </nav>
+                </div>
 
                 <button
                     className={`hamburger ${menuOpen ? "is-open" : ""}`}

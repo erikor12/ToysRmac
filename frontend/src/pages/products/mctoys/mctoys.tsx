@@ -13,7 +13,7 @@ export default function McToys() {
     return (
         <section className="brand-page">
             <h2>McDonald's Toys Collection</h2>
-            <p className="brand-lead">Figuras y coleccionables de McDonald's, seleccionadas para exhibición y juego.</p>
+            <p className="brand-lead">Figuras y coleccionables de Burger King, seleccionadas para exhibición y juego.</p>
             <div className="grid">
                 {PRODUCTS.map((p) => (
                     <article key={p.id} className="card">

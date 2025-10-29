@@ -5,13 +5,17 @@ import App from "./App";
 import { CartProvider } from "./contexts/cartcontext";
 import "./index.css";
 import { AuthProvider } from "./contexts/authcontext";
+import { SearchProvider } from "./contexts/searchcontext";
+
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
-          <App />
+          <SearchProvider>
+            <App />
+          </SearchProvider>
         </BrowserRouter>
       </CartProvider>
     </AuthProvider>
