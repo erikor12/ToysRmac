@@ -1,4 +1,3 @@
-// # lógica de negocio
 const productService = require('../services/productosService')
 
 async function getAll(req, res) {
