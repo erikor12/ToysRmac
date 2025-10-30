@@ -10,4 +10,6 @@ router.get("/mc", productsController.getMC);
 
 router.get("/bk", productsController.getBK);
 
+router.get('/:id', productsController.getById);
+
 module.exports = router;

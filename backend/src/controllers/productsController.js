@@ -35,6 +35,17 @@ async function getBK(req, res) {
     }
 }
 
+async function getById(req, res) {
+    try {
+        const { id } = req.params;
+        const data = await productService.getById(id);
+        if (!data) return res.status(404).json({ error: 'Not found' });
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
 
 
-module.exports = { getAll, search, getMC, getBK }
+
+module.exports = { getAll, search, getMC, getBK, getById }

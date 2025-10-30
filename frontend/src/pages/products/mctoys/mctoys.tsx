@@ -61,14 +61,14 @@ export default function MCToys() {
                                 onClick={() =>
                                     dispatch({
                                         type: "add",
-                                        product: { id: String(p.id), brand: "mctoys", title: p.title ?? p.NAME ?? p.name, price: p.price ?? p.VALUE ?? 0 },
+                                        product: { id: String(p.ID), brand: "mctoys", title: p.title ?? p.NAME ?? p.name, price: p.price ?? p.VALUE ?? 0 },
                                     })
                                 }
                                 className="add-btn"
                             >
                                 Añadir
                             </button>
-                            <Link to={`/product/mctoys/${p.id}`} className="details">
+                            <Link to={`/product/mctoys/${p.ID}`} className="details">
                                 Detalles
                             </Link>
                         </div>

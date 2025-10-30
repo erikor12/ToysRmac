@@ -60,14 +60,14 @@ export default function BKToys() {
                                 onClick={() =>
                                     dispatch({
                                         type: "add",
-                                        product: { id: String(p.id), brand: "bktoys", title: p.title ?? p.NAME ?? p.name, price: p.price ?? p.VALUE ?? 0 },
+                                        product: { id: String(p.ID), brand: "bktoys", title: p.title ?? p.NAME ?? p.name, price: p.price ?? p.VALUE ?? 0 },
                                     })
                                 }
                                 className="add-btn"
                             >
                                 Añadir
                             </button>
-                            <Link to={`/product/bktoys/${p.id}`} className="details">
+                            <Link to={`/product/bktoys/${p.ID}`} className="details">
                                 Detalles
                             </Link>
                         </div>

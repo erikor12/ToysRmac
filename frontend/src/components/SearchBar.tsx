@@ -101,11 +101,9 @@ export default function SearchBar() {
         setLocal(item.title);
         setOpen(false);
 
-        // Navegación: envía al usuario a la ruta de la colección y pasa el id en state
-        // Asumimos que tienes rutas /mctoys y /bktoys que pueden leer location.state.selectedId
-        navigate(item.source === "mctoys" ? "/mctoys" : "/bktoys", {
-            state: { selectedId: item.id },
-        });
+        // Navigate to product details page using brand and id
+        // route: /product/:brand/:id  (brand values are 'mctoys' or 'bktoys')
+        navigate(`/product/${item.source}/${item.id}`, { state: { selectedId: item.id } });
     }
 
     return (
