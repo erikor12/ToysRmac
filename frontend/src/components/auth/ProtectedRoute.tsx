@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/authcontext";
 
@@ -12,4 +12,3 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
     }
     return children;
 }
-

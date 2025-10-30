@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearch } from "../contexts/searchcontext";
 import { useNavigate } from "react-router-dom";
 import "./searchbar-with-results.css";

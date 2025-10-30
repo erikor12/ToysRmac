@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/cartcontext";
 import { useAuth } from "../../contexts/authcontext";

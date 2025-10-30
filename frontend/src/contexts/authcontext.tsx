@@ -4,7 +4,9 @@ import { loginB64 } from "../utils/authClientB64";
 
 type User = { id: string; name: string; email: string; createdAt: string } | null;
 
-type State = { user: User; ready: boolean };
+type State = {
+    loading: any; user: User; ready: boolean 
+};
 type Action =
     | { type: "login"; payload: User }
     | { type: "logout" }
