@@ -15,7 +15,7 @@ export default function ProductDetails() {
     useEffect(() => {
         if (!brand || !id) return;
         setLoading(true);
-        fetch(`http://localhost:3000/products/${id}`)
+        fetch(`https://toysrmac-backend.onrender.com/products/${id}`)
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
