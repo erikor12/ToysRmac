@@ -33,7 +33,7 @@
 /* Make nav-links behave as centered group */
 .nav-links {
     display: flex;
-    gap: 0.8rem;
+    gap: 4rem;
     align-items: center;
     justify-content: center;
     flex: 1 1 auto;

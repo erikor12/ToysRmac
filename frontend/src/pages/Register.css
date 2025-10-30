@@ -1,129 +1,163 @@
-.register-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 36px 16px;
-    min-height: calc(100vh - 80px);
-    background: #f7f9fb;
-    box-sizing: border-box
+:root {
+    --blue: #0058A3;
+    --yellow: #ffcc00;
+    --bg: #f6f8fa;
+    --text: #0b1a2b;
+    --muted: #405a6b;
+    --card-shadow: 0 10px 24px rgba(11, 26, 43, 0.06);
+    --radius: 10px;
 }
 
+/* Página */
+.register-page {
+    min-height: calc(100vh - 68px);
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, var(--bg) 0, #fff 100%);
+    padding: 2rem 1rem;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    color: var(--text);
+}
+
+/* Tarjeta */
 .register-card {
     width: 100%;
     max-width: 520px;
     background: #fff;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 10px 30px rgba(6, 22, 43, 0.08);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     box-sizing: border-box;
-    border: 1px solid rgba(2, 6, 23, 0.04)
+    border: 1px solid rgba(2, 6, 23, 0.03);
 }
 
+/* Título y subtítulo */
 .register-card h1 {
-    margin: 0 0 6px 0;
+    margin: 0;
     font-size: 1.25rem;
-    color: #07243b;
-    font-weight: 800
+    color: var(--blue);
+    font-weight: 800;
 }
 
 .register-card p {
-    margin: 0 0 18px 0;
-    color: #334253;
-    font-size: 0.95rem
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
 }
 
+/* Formulario */
 .register-card form {
-    display: grid;
-    gap: 12px
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 6px;
 }
 
 .register-card label {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    color: #243447;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--muted);
     font-weight: 600;
-    font-size: 0.95rem
 }
 
 .register-card input {
-    width: 100%;
-    padding: 10px 12px;
+    height: 40px;
+    padding: 8px 10px;
     border-radius: 8px;
-    border: 1px solid rgba(11, 34, 51, 0.08);
+    border: 1px solid #e6eef6;
     background: #fbfdff;
-    outline: none;
-    font-size: 0.98rem;
-    color: #07243b;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline-offset: 3px;
     box-sizing: border-box;
-    transition: box-shadow 0.12s ease, border-color 0.12s ease
+    transition: box-shadow 0.12s ease, border-color 0.12s ease, transform 120ms ease;
 }
 
 .register-card input:focus {
-    border-color: #0078d4;
-    box-shadow: 0 4px 18px rgba(0, 120, 212, 0.08)
+    border-color: var(--blue);
+    box-shadow: 0 6px 18px rgba(0, 88, 163, 0.08);
+    transform: translateY(-1px);
 }
 
+/* Acciones */
 .actions {
     display: flex;
+    gap: 8px;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 6px
-}
-
-.actions button {
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    border: 0;
-    font-size: 0.96rem
-}
-
-.actions button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed
+    margin-top: 4px;
 }
 
 .btn-primary {
-    background: #0078d4;
+    background: var(--blue);
     color: #fff;
-    box-shadow: 0 6px 18px rgba(0, 120, 212, 0.12);
-    border: 1px solid rgba(0, 120, 212, 0.12)
+    border: none;
+    padding: 10px 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 88, 163, 0.12);
 }
 
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Feedback */
 .feedback {
     margin-top: 8px;
     padding: 10px 12px;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 0.95rem
+    font-size: 0.95rem;
 }
 
 .feedback.success {
     background: #e6f5ff;
-    color: #005a9e;
-    border: 1px solid rgba(0, 120, 212, 0.12)
+    color: var(--blue);
+    border: 1px solid rgba(0, 120, 212, 0.08);
 }
 
 .feedback.error {
     background: #fff0f0;
     color: #a10b1b;
-    border: 1px solid rgba(161, 11, 27, 0.08)
+    border: 1px solid rgba(161, 11, 27, 0.08);
 }
 
-@media (max-width:560px) {
+/* Helper / enlaces */
+.register-card .helper {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.register-card .link {
+    color: var(--blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
     .register-card {
-        padding: 16px;
-        border-radius: 10px
+        padding: 1rem;
+        max-width: 94%;
+    }
+
+    .register-card h1 {
+        font-size: 1.1rem;
     }
 
     .actions {
-        justify-content: stretch;
-        flex-direction: column
+        flex-direction: column;
     }
 
-    .actions button {
-        width: 100%
+    .actions .btn-primary {
+        width: 100%;
     }
 }

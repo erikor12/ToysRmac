@@ -8,6 +8,7 @@
     --radius: 10px;
 }
 
+/* Página */
 .login-page {
     min-height: calc(100vh - 68px);
     display: grid;
@@ -16,11 +17,14 @@
     padding: 2rem 1rem;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
     color: var(--text);
+    box-sizing: border-box;
 }
 
+/* Tarjeta (ahora igual tamaño que register-card) */
 .login-card {
     width: 100%;
-    max-width: 420px;
+    max-width: 520px;
+    /* MATCH: same as register */
     background: #fff;
     border-radius: var(--radius);
     box-shadow: var(--card-shadow);
@@ -28,12 +32,16 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    box-sizing: border-box;
+    border: 1px solid rgba(2, 6, 23, 0.03);
 }
 
+/* Título y subtítulo */
 .login-card h1 {
     margin: 0;
     font-size: 1.25rem;
     color: var(--blue);
+    font-weight: 800;
 }
 
 .login-card p {
@@ -42,6 +50,7 @@
     font-size: 0.95rem;
 }
 
+/* Formulario */
 .login-card form {
     display: flex;
     flex-direction: column;
@@ -55,6 +64,7 @@
     gap: 6px;
     font-size: 0.9rem;
     color: var(--muted);
+    font-weight: 600;
 }
 
 .login-card input {
@@ -66,8 +76,17 @@
     color: var(--text);
     font-size: 0.95rem;
     outline-offset: 3px;
+    box-sizing: border-box;
+    transition: box-shadow 0.12s ease, border-color 0.12s ease, transform 120ms ease;
 }
 
+.login-card input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 6px 18px rgba(0, 88, 163, 0.08);
+    transform: translateY(-1px);
+}
+
+/* Acciones */
 .login-actions {
     display: flex;
     gap: 8px;
@@ -83,6 +102,7 @@
     font-weight: 700;
     border-radius: 8px;
     cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 88, 163, 0.12);
 }
 
 .login-actions button:disabled {
@@ -90,7 +110,42 @@
     cursor: not-allowed;
 }
 
-@media (max-width:480px) {
+/* Feedback */
+.feedback {
+    margin-top: 8px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.feedback.success {
+    background: #e6f5ff;
+    color: var(--blue);
+    border: 1px solid rgba(0, 120, 212, 0.08);
+}
+
+.feedback.error {
+    background: #fff0f0;
+    color: #a10b1b;
+    border: 1px solid rgba(161, 11, 27, 0.08);
+}
+
+/* Helpers */
+.login-card .helper {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.login-card .link {
+    color: var(--blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
     .login-card {
         padding: 1rem;
         max-width: 94%;
@@ -98,5 +153,13 @@
 
     .login-card h1 {
         font-size: 1.1rem;
+    }
+
+    .login-actions {
+        flex-direction: column;
+    }
+
+    .login-actions button {
+        width: 100%;
     }
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import type { ReactNode } from "react";
 import { loginB64 } from "../utils/authClientB64";
 
@@ -12,8 +12,7 @@ type Action =
     | { type: "logout" }
     | { type: "ready"; payload: boolean };
 
-const initial: State = { user: null, ready: false };
-
+const initial: State = { loading: false, user: null, ready: false };
 function reducer(state: State, action: Action): State {
     switch (action.type) {
         case "login":
