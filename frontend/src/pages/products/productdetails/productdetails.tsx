@@ -36,6 +36,7 @@ export default function ProductDetails() {
             <div className="pd-left" />
             <div className="pd-right">
                 <h1>{product.title ?? product.NAME ?? product.name}</h1>
+                {product.YEAR && <p className="pd-year">Año: {product.YEAR}</p>}
                 <p className="pd-price">${(product.price ?? product.VALUE ?? 0).toString()}</p>
                 <p>{product.desc ?? product.DESC ?? product.NAME}</p>
                 <div className="pd-actions">

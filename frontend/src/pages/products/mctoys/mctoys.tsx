@@ -20,7 +20,7 @@ export default function MCToys() {
 
     useEffect(() => {
         setLoading(true);
-        fetch("https://toysrmac-backend.onrender.com:10000/products/mc")
+        fetch("https://toysrmac-backend.onrender.com/products/mc")
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
@@ -54,7 +54,7 @@ export default function MCToys() {
                             aria-hidden
                         />
                         <h3>{p.title ?? p.NAME ?? p.name}</h3>
-                        <p className="price">${(p.price ?? p.VALUE ?? 0).toString()}</p>
+                        <p className="price">${(p.price ?? p.VALUE ?? 0).toString()} {p.YEAR ? <span className="year">• {p.YEAR}</span> : null}</p>
                         <p className="card-desc">{p.desc ?? p.DESC ?? p.NAME}</p>
                         <div className="actions">
                             <button
