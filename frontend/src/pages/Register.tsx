@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createAccountB64 } from "./../utils/authClientB64";
 import { useAuth } from "./../contexts/authcontext";
 import { useNavigate } from "react-router-dom";
-import "./register.css";
+import "./Register.css";
 
 export default function RegisterPage() {
     const [name, setName] = useState("");
