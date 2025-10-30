@@ -1,5 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = require('../utils/db');
+
+// productsService: thin wrappers around prisma client
 
 async function getProductos() {
   const productos = await prisma.products.findMany();
