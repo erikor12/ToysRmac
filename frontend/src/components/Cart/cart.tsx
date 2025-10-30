@@ -1,7 +1,6 @@
 import "./cart.css";
 import { useCart } from "../../contexts/cartcontext";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cart() {
     const { state, dispatch } = useCart();
