@@ -20,7 +20,7 @@ export default function MCToys() {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:3000/products/mc")
+        fetch("https://toysrmac-backend.onrender.com/products/mc")
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();

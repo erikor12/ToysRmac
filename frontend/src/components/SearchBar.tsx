@@ -62,7 +62,7 @@ export default function SearchBar() {
 
     // Fetch products once and split by STORE
     useEffect(() => {
-        fetch("http://localhost:3000/products/")
+        fetch("https://toysrmac-backend.onrender.com/products/")
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
