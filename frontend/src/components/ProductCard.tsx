@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function ProductCard({ product, onDetails, onAdd }: any) {
     return (
         <article className="product-card">
