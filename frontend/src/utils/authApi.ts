@@ -1,7 +1,7 @@
 export type ApiUser = { ID?: number; USER?: string; MAIL: string; CREATION?: string };
 export type NormalizedUser = { id: number | null; name: string; email: string; createdAt: string | null } | null;
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://toysrmac-backend.onrender.com';
 
 type RequestResult = { ok: true; data: any } | { ok: false; error: string };
 
