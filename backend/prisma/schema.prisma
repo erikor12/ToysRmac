@@ -23,3 +23,11 @@ model products {
   VALUE     Int?
   DESC      String?
 }
+
+model clients {
+  ID        Int     @id @default(autoincrement())
+  USER      String   @unique
+  MAIL      String   @unique
+  PASSWORD  String
+  CREATION  DateTime @default(now())
+}

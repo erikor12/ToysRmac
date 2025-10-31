@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 export default function DemoAlert({
     localStorageKey = "seenDemoAlert",
     title = "Página de prueba",
-    message = "Esta es una versión de prueba. Los datos pueden ser ficticios y algunas funciones no están completas.",
+    message1 = "Esta es una versión de prueba. Los datos pueden ser ficticios y algunas funciones no están completas.",
+    message2 = "También es posible que la aplicación tarde en cargar los datos de la API, esto es un problema se debe a que Render la relentiza despues de 15 minutos de inactividad debido a las limitaciones del plan gratuito",
     showAlways = false, // si true ignora localStorage y muestra siempre
 }: {
     localStorageKey?: string;
     title?: string;
-    message?: string;
+    message1?: string;
+    message2?: string;
     showAlways?: boolean;
 }) {
     const [open, setOpen] = useState(false);
@@ -45,7 +47,8 @@ export default function DemoAlert({
                 </header>
 
                 <div className="da-body">
-                    <p>{message}</p>
+                    <p>{message1}</p>
+                    <p>{message2}</p>
                 </div>
 
                 <footer className="da-footer">
