@@ -9,8 +9,18 @@ type Product = {
     price?: number;
     img?: string;
     desc?: string;
-    [key: string]: any;
+    [key: string]: unknown;
 };
+
+function asNumber(v: unknown) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+}
+function asString(v: unknown) {
+    if (v == null) return "";
+    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return String(v);
+    return "";
+}
 
 export default function MCToys() {
     const { dispatch } = useCart();
@@ -53,15 +63,15 @@ export default function MCToys() {
                             style={{ backgroundImage: `url(${p.img ?? "/src/assets/placeholder.png"})` }}
                             aria-hidden
                         />
-                        <h3>{p.title ?? p.NAME ?? p.name}</h3>
-                        <p className="price">${(p.price ?? p.VALUE ?? 0).toString()} {p.YEAR ? <span className="year">• {p.YEAR}</span> : null}</p>
-                        <p className="card-desc">{p.desc ?? p.DESC ?? p.NAME}</p>
+                        <h3>{p.title ?? asString(p.NAME) ?? asString(p.name)}</h3>
+                        <p className="price">${asNumber(p.price ?? p.VALUE ?? 0).toFixed(2)} {p.YEAR ? <span className="year">• {asString(p.YEAR)}</span> : null}</p>
+                        <p className="card-desc">{p.desc ?? asString(p.DESC) ?? asString(p.NAME)}</p>
                         <div className="actions">
                             <button
                                 onClick={() =>
                                     dispatch({
                                         type: "add",
-                                        product: { id: String(p.ID), brand: "mctoys", title: p.title ?? p.NAME ?? p.name, price: p.price ?? p.VALUE ?? 0 },
+                                        product: { id: String(p.ID), brand: "mctoys", title: p.title ?? asString(p.NAME) ?? asString(p.name), price: asNumber(p.price ?? p.VALUE ?? 0) },
                                     })
                                 }
                                 className="add-btn"

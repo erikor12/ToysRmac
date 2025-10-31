@@ -1,10 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearch } from "../contexts/searchcontext";
+import { useSearch } from "../../contexts/searchcontext";
 import { useNavigate } from "react-router-dom";
 import "./searchbar-with-results.css";
 
 // products are fetched from the API and normalized to this shape
 type Item = { id: string; title: string; price?: number; short?: string; source: "mctoys" | "bktoys" };
+type RawProduct = Record<string, unknown>;
+
+function getString(v: unknown) {
+    if (v == null) return "";
+    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return String(v);
+    return "";
+}
+function getNumber(v: unknown) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+}
 
 export default function SearchBar() {
     const { query, setQuery } = useSearch();
@@ -38,15 +49,18 @@ export default function SearchBar() {
             return;
         }
 
-        const searchIn = (arr: any[], source: Item["source"]) =>
+        const searchIn = (arr: unknown[], source: Item["source"]) =>
             arr
-                .map((p) => ({
-                    id: p.id,
-                    title: p.title ?? "",
-                    price: p.price,
-                    short: p.short ?? "",
-                    source,
-                }))
+                .map((p) => {
+                    const obj = p as RawProduct;
+                    return {
+                        id: getString(obj.id),
+                        title: getString(obj.title),
+                        price: getNumber(obj.price),
+                        short: getString(obj.short),
+                        source,
+                    };
+                })
                 .filter(
                     (it) =>
                         it.title.toLowerCase().includes(q) ||
@@ -68,19 +82,20 @@ export default function SearchBar() {
                 return res.json();
             })
             .then((data) => {
-                let all: any[] = [];
+                let all: unknown[] = [];
                 if (Array.isArray(data)) all = data;
                 else if (data && Array.isArray(data.products)) all = data.products;
 
                 const m: Item[] = [];
                 const b: Item[] = [];
                 for (const p of all) {
+                    const obj = p as RawProduct;
                     const item: Item = {
-                        id: String(p.ID ?? p.id ?? (p.ID?.toString ? p.ID.toString() : p.ID)),
-                        title: p.NAME ?? p.title ?? p.name ?? "",
-                        price: Number(p.VALUE ?? p.price ?? 0),
-                        short: p.YEAR ? String(p.YEAR) : p.desc ?? p.DESC ?? "",
-                        source: ((p.STORE || p.store || "").toString().toUpperCase() === "BK") ? "bktoys" : "mctoys",
+                        id: getString(obj.ID ?? obj.id),
+                        title: getString(obj.NAME ?? obj.title ?? obj.name),
+                        price: getNumber(obj.VALUE ?? obj.price ?? 0),
+                        short: obj.YEAR ? getString(obj.YEAR) : (getString(obj.desc) ?? getString(obj.DESC) ?? ''),
+                        source: ((getString(obj.STORE ?? obj.store)).toUpperCase() === "BK") ? "bktoys" : "mctoys",
                     } as Item;
 
                     if (item.source === "bktoys") b.push(item);
@@ -90,8 +105,8 @@ export default function SearchBar() {
                 setMctoys(m);
                 setBktoys(b);
             })
-            .catch(() => {
-                // keep arrays empty on error — search will fallback to empty
+            .catch((e) => {
+                console.warn('SearchBar: failed to fetch products', e);
             });
     }, []);
 
@@ -141,7 +156,7 @@ export default function SearchBar() {
             </div>
 
             {open && results.length > 0 && (
-                <div className="sb-results" role="listbox" aria-label="Resultados de búsqueda">
+                <div className="sb-results" aria-label="Resultados de búsqueda">
                     {/* Agrupar visualmente por fuente */}
                     <div className="sb-group">
                         <div className="sb-group-title">McToys</div>

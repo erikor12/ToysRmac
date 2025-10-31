@@ -7,8 +7,8 @@ import "./index.css";
 import { AuthProvider } from "./contexts/authcontext";
 import { SearchProvider } from "./contexts/searchcontext";
 
-import DemoAlert from "./components/DemoAlert";
-import "./components/demoalert.css";
+import DemoAlert from "./components/demoalert/DemoAlert";
+import "./components/demoalert/demoalert.css";
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

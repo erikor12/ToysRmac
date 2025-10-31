@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 
 type Product = { id: string; brand?: string; title: string; price: number; img?: string };
@@ -73,9 +74,10 @@ function reducer(state: State, action: Action): State {
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INITIAL, initial => {
         try {
-            const raw = localStorage.getItem("cart_v1");
+            const raw = globalThis.localStorage?.getItem("cart_v1");
             return raw ? { ...initial, ...(JSON.parse(raw) as Partial<State>) } : initial;
-        } catch {
+        } catch (e) {
+            console.warn('cartcontext: failed to read cart_v1', e);
             return initial;
         }
     });
@@ -83,11 +85,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {
         try {
             // persist only items, keep drawer closed on reload
-            localStorage.setItem("cart_v1", JSON.stringify({ items: state.items }));
-        } catch { }
+            globalThis.localStorage?.setItem("cart_v1", JSON.stringify({ items: state.items }));
+        } catch (e) {
+            console.warn('cartcontext: failed to persist cart_v1', e);
+        }
     }, [state.items]);
 
-    return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
+    const value = React.useMemo(() => ({ state, dispatch }), [state, dispatch]);
+    return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export function useCart() {

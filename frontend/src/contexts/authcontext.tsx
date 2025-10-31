@@ -1,11 +1,13 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useReducer, useMemo } from "react";
 import type { ReactNode } from "react";
 import { loginApi } from "../utils/authApi";
+import { persistUserToStorage, readUserFromStorage } from "../utils/session";
 
 type User = { id: number | null; name: string; email: string; createdAt: string | null } | null;
 
 type State = {
-    loading: any; user: User; ready: boolean 
+    loading: boolean; user: User; ready: boolean 
 };
 type Action =
     | { type: "login"; payload: User }
@@ -26,15 +28,7 @@ function reducer(state: State, action: Action): State {
     }
 }
 
-// persistence helper in module scope to satisfy lint rules
-function persistUser(user: User | null) {
-    try {
-        if (user) localStorage.setItem("session_user_v1", JSON.stringify(user));
-        else localStorage.removeItem("session_user_v1");
-    } catch (e) {
-        console.warn('Failed to persist session:', e);
-    }
-}
+// persistence moved to utils/session.ts
 
 const AuthContext = createContext<{
     state: State;
@@ -54,13 +48,9 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     useEffect(() => {
         // intentar restaurar sesión desde localStorage (si guardás token/user)
         try {
-            const raw = localStorage.getItem("session_user_v1");
-            if (raw) {
-                const parsed = JSON.parse(raw);
-                // basic shape check
-                if (parsed && typeof parsed.email === 'string') {
-                    dispatch({ type: "login", payload: parsed });
-                }
+            const parsed = readUserFromStorage("session_user_v1");
+            if (parsed && typeof parsed.email === 'string') {
+                dispatch({ type: "login", payload: parsed } as Action);
             }
         } catch (e) {
             console.warn('Failed to restore session:', e);
@@ -76,18 +66,18 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
         if (!res.ok) return { ok: false, error: res.error };
         const user = res.user ?? null;
         dispatch({ type: "login", payload: user });
-    persistUser(user);
+        persistUserToStorage("session_user_v1", user);
         return { ok: true };
     }
 
     function setUser(user: User) {
         dispatch({ type: "login", payload: user });
-    persistUser(user);
+        persistUserToStorage("session_user_v1", user);
     }
 
     function logout() {
         dispatch({ type: "logout" });
-    persistUser(null);
+        persistUserToStorage("session_user_v1", null);
     }
 
     const value = useMemo(() => ({ state, login, setUser, logout }), [state]);

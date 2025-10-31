@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/cartcontext";
 import { useAuth } from "../../contexts/authcontext";
 import "./checkout.css";
-import PurchaseModal from "../../components/PurchaseModal";
+import PurchaseModal from "../../components/purchaseModal/PurchaseModal";
 import { useState } from "react";
 
 export default function Checkout() {

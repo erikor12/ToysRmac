@@ -1,4 +1,6 @@
-export default function ProductCard({ product, onDetails, onAdd }: any) {
+type Product = { id: string; title: string; price: number; short?: string };
+
+export default function ProductCard({ product, onDetails, onAdd }: Readonly<{ product: Product; onDetails: (p: Product) => void; onAdd: (p: Product) => void }>) {
     return (
         <article className="product-card">
             <h3>{product.title}</h3>

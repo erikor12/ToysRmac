@@ -8,7 +8,7 @@ import BKToys from "./pages/products/bktoys/bktoys";
 import ProductDetails from "./pages/products/productdetails/productdetails";
 import NotFound from "./pages/notfound/notfound";
 import Login from "./pages/login/login";
-import Register from "./pages/Register";
+import Register from "./pages/register/Register";
 import Checkout from "./pages/checkout/checkout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ProfilePage from "./pages/profile/Profile";

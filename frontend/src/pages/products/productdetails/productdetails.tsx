@@ -3,7 +3,17 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../../../contexts/cartcontext";
 import "./productdetails.css";
 
-type Product = { id: string | number; title?: string; price?: number; desc?: string; [key: string]: any };
+type Product = { id: string | number; title?: string; price?: number; desc?: string; [key: string]: unknown };
+
+function asNumber(v: unknown) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+}
+function asString(v: unknown) {
+    if (v == null) return "";
+    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return String(v);
+    return "";
+}
 
 export default function ProductDetails() {
     const { brand, id } = useParams<{ brand: string; id: string }>();
@@ -35,12 +45,12 @@ export default function ProductDetails() {
         <section className="pd">
             <div className="pd-left" />
             <div className="pd-right">
-                <h1>{product.title ?? product.NAME ?? product.name}</h1>
-                {product.YEAR && <p className="pd-year">Año: {product.YEAR}</p>}
-                <p className="pd-price">${(product.price ?? product.VALUE ?? 0).toString()}</p>
-                <p>{product.desc ?? product.DESC ?? product.NAME}</p>
+                <h1>{product.title ?? asString(product.NAME) ?? asString(product.name)}</h1>
+                {asString(product.YEAR) && <p className="pd-year">Año: {asString(product.YEAR)}</p>}
+                <p className="pd-price">${asNumber(product.price ?? product.VALUE ?? 0).toFixed(2)}</p>
+                <p>{product.desc ?? asString(product.DESC) ?? asString(product.NAME)}</p>
                 <div className="pd-actions">
-                    <button onClick={() => dispatch({ type: "add", product: { id: String(product.ID ?? product.id), brand: brand as any, title: product.title ?? product.NAME ?? product.name, price: product.price ?? product.VALUE ?? 0 } })}>Agregar al carrito</button>
+                    <button onClick={() => dispatch({ type: "add", product: { id: String(asString(product.ID ?? product.id)), brand: String(brand ?? ''), title: product.title ?? asString(product.NAME) ?? asString(product.name), price: asNumber(product.price ?? product.VALUE ?? 0) } })}>Agregar al carrito</button>
                 </div>
             </div>
         </section>

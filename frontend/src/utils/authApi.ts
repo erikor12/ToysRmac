@@ -3,9 +3,9 @@ export type NormalizedUser = { id: number | null; name: string; email: string; c
 
 const API_BASE = import.meta.env.VITE_API_URL || 'https://toysrmac-backend.onrender.com';
 
-type RequestResult = { ok: true; data: any } | { ok: false; error: string };
+type RequestResult = { ok: true; data: unknown } | { ok: false; error: string };
 
-async function request(path: string, method = 'GET', body?: any): Promise<RequestResult> {
+async function request(path: string, method = 'GET', body?: unknown): Promise<RequestResult> {
     const res = await fetch(`${API_BASE}${path}`, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -25,14 +25,14 @@ export async function createAccountApi(name: string, email: string, password: st
     const r = await request('/clients', 'POST', payload);
     if (!r.ok) return { ok: false, error: r.error };
     // r.data should be the created user (without password) with fields: ID, USER, MAIL, CREATION
-    const raw = r.data;
+    const raw = r.data as Record<string, unknown> | null;
     const mapped: NormalizedUser = raw
         ? {
-              id: raw.ID ?? raw.id ?? null,
-              name: raw.USER ?? raw.user ?? '',
-              email: raw.MAIL ?? raw.mail ?? '',
-              createdAt: raw.CREATION ?? raw.creation ?? raw.createdAt ?? null,
-          }
+            id: (raw['ID'] as number) ?? (raw['id'] as number) ?? null,
+            name: (raw['USER'] as string) ?? (raw['user'] as string) ?? '',
+            email: (raw['MAIL'] as string) ?? (raw['mail'] as string) ?? '',
+            createdAt: (raw['CREATION'] as string) ?? (raw['creation'] as string) ?? (raw['createdAt'] as string) ?? null,
+        }
         : null;
     return { ok: true, user: mapped };
 }
@@ -43,14 +43,15 @@ export async function loginApi(email: string, password: string): Promise<{ ok: b
     const r = await request('/clients/login', 'POST', payload);
     if (!r.ok) return { ok: false, error: r.error };
     // r.data should contain { ok: true, user }
-    const rawUser = r.data?.user ?? null;
+    const dataObj = r.data as Record<string, unknown> | null;
+    const rawUser = (dataObj?.['user'] as Record<string, unknown>) ?? null;
     const mapped: NormalizedUser = rawUser
         ? {
-              id: rawUser.ID ?? rawUser.id ?? null,
-              name: rawUser.USER ?? rawUser.user ?? '',
-              email: rawUser.MAIL ?? rawUser.mail ?? '',
-              createdAt: rawUser.CREATION ?? rawUser.creation ?? rawUser.createdAt ?? null,
-          }
+            id: (rawUser['ID'] as number) ?? (rawUser['id'] as number) ?? null,
+            name: (rawUser['USER'] as string) ?? (rawUser['user'] as string) ?? '',
+            email: (rawUser['MAIL'] as string) ?? (rawUser['mail'] as string) ?? '',
+            createdAt: (rawUser['CREATION'] as string) ?? (rawUser['creation'] as string) ?? (rawUser['createdAt'] as string) ?? null,
+        }
         : null;
     return { ok: true, user: mapped };
 }

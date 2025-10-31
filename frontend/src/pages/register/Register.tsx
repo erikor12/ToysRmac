@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { createAccountApi } from "./../utils/authApi";
-import { useAuth } from "./../contexts/authcontext";
+import { createAccountApi } from "../../utils/authApi";
+import { useAuth } from "../../contexts/authcontext";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
