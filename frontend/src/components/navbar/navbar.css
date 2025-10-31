@@ -313,3 +313,25 @@
     pointer-events: auto;
     z-index: 1050;
 }
+
+/* estilo para los items del dropdown (aplica tanto a <a> como a <button>) */
+.user-dropdown .user-item,
+.user-dropdown .logout-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: 0;
+    text-decoration: none;
+    color: #07243b;
+    /* texto oscuro en dropdown blanco */
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.user-dropdown .user-item:hover,
+.user-dropdown .logout-btn:hover {
+    background: rgba(2, 6, 23, 0.04);
+}

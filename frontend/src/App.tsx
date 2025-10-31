@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
-import Cart from "./components/Cart/cart";
+import Cart from "./components/cart/cart";
 import Home from "./pages/home/home";
 import About from "./pages/about/about";
 import McToys from "./pages/products/mctoys/mctoys";
@@ -11,6 +11,7 @@ import Login from "./pages/login/login";
 import Register from "./pages/Register";
 import Checkout from "./pages/checkout/checkout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import ProfilePage from "./pages/profile/Profile";
 import "./App.css";
 
 export default function App() {
@@ -28,6 +29,11 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
         </Routes>
       </main>
       <Cart />
