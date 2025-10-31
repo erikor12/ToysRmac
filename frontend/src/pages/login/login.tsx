@@ -11,9 +11,10 @@ export default function Login() {
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = (location.state as any)?.from?.pathname || "/";
+    type LocationState = { from?: { pathname?: string } } | undefined;
+    const from = ((location.state as LocationState)?.from?.pathname) || "/";
 
-    async function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setSubmitting(true);
         setError(null);
@@ -25,6 +26,7 @@ export default function Login() {
             }
             navigate(from, { replace: true });
         } catch (err) {
+            console.warn('login submit error', err);
             setError("Error al autenticar");
         } finally {
             setSubmitting(false);

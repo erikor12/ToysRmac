@@ -25,7 +25,8 @@ export default function DemoAlert({
         try {
             const seen = window.localStorage.getItem(localStorageKey);
             if (!seen) setOpen(true);
-        } catch {
+        } catch (e) {
+            console.warn('DemoAlert: could not read localStorage', e);
             setOpen(true);
         }
     }, [localStorageKey, showAlways]);
@@ -34,7 +35,7 @@ export default function DemoAlert({
         if (neverAgain) {
             try {
                 window.localStorage.setItem(localStorageKey, "1");
-            } catch { }
+            } catch (e) { console.warn('DemoAlert: could not write localStorage', e); }
         }
         setOpen(false);
     }

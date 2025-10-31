@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
 
 type Category = "all" | "mctoys" | "bktoys";
 type Filters = { category: Category; minPrice: number; maxPrice: number; };
@@ -26,8 +27,9 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setFiltersState(defaultFilters);
     }
 
+    const value = React.useMemo(() => ({ query, setQuery, filters, setFilters: (p: Partial<Filters>) => setFilters(p), resetFilters }), [query, filters]);
     return (
-        <SearchContext.Provider value={{ query, setQuery, filters, setFilters, resetFilters }}>
+        <SearchContext.Provider value={value}>
             {children}
         </SearchContext.Provider>
     );

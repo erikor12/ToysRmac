@@ -28,7 +28,7 @@ export default function AccountNotice({
 
     function handleNeverAgain() {
         if (localStorageKey) {
-            try { localStorage.setItem(localStorageKey, "1"); } catch { }
+            try { localStorage.setItem(localStorageKey, "1"); } catch (e) { console.warn('AccountNotice: failed to set localStorage', e); }
         }
         onClose(false);
     }
