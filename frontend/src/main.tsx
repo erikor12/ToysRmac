@@ -19,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
             <DemoAlert
               localStorageKey = "seenDemoAlert_v1"
               title = "Aviso: Página de prueba"
-              message = "Estás viendo una versión de prueba. Algunos datos pueden ser ficticios y algunas funciones pueden no estar completas."
+              message1 = "Estás viendo una versión de prueba. Algunos datos pueden ser ficticios y algunas funciones pueden no estar completas."
+              message2 = "También es posible que la aplicación tarde en cargar los datos de la API (Productos y clientes), esto es un problema se debe a que Render la relentiza despues de 15 minutos de inactividad debido a las limitaciones del plan gratuito"
+              message3 = "Para solucionar esto, simplemente haz que aparezca el error de HTTP 500, espera un minuto y recarga la página."
             />
             <App />
           </SearchProvider>
