@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useCart } from "../../contexts/cartcontext";
 import { useAuth } from "../../contexts/authcontext";
-import SearchBar from "../SearchBar";
+import SearchBar from "../searchbar/SearchBar";
 
 export default function Navbar() {
     const { state: cartState, dispatch: cartDispatch } = useCart();

@@ -6,13 +6,12 @@ export default function Cart() {
     const { state, dispatch } = useCart();
     const total = state.items.reduce((s, i) => s + i.price * i.qty, 0);
     const navigate = useNavigate();
-    <button className="checkout" onClick={() => navigate("/checkout")}>Checkout</button>
 
     if (!state.drawerOpen) return null; // no render si está cerrado
 
     return (
         <>
-            <div className="cart-overlay" onClick={() => dispatch({ type: "close" })} />
+            <button className="cart-overlay" type="button" aria-label="Cerrar carrito" onClick={() => dispatch({ type: "close" })} />
             <aside className="cart-drawer open" role="dialog" aria-modal="true">
                 <div className="cart-head">
                     <h3>Carrito</h3>
@@ -56,7 +55,7 @@ export default function Cart() {
                                 <strong>${total.toFixed(2)}</strong>
                             </div>
                             <div className="cart-actions">
-                                <button className="checkout" onClick={() => { /* integrar checkout */ }}>Checkout</button>
+                                <button className="checkout" onClick={() => { dispatch({ type: "close" }); navigate('/checkout'); }}>Checkout</button>
                                 <Link to="/mctoys" className="continue" onClick={() => dispatch({ type: "close" })}>Seguir comprando</Link>
                             </div>
                         </div>

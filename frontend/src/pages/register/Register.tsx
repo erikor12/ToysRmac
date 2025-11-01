@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { createAccountB64 } from "./../utils/authClientB64";
-import { useAuth } from "./../contexts/authcontext";
+import { createAccountApi } from "../../utils/authApi";
+import { useAuth } from "../../contexts/authcontext";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
@@ -17,22 +17,16 @@ export default function RegisterPage() {
         e.preventDefault();
         setMsg(null);
         setLoading(true);
-        const res = await createAccountB64(name.trim(), email.trim(), password);
+        const res = await createAccountApi(name.trim(), email.trim(), password);
         setLoading(false);
         if (!res.ok) {
             setMsg(res.error || "Error");
             return;
         }
 
-        // Auto-login: set user in context
-        try {
-            if (res.user) {
-                auth.setUser(res.user);
-            } else {
-                console.warn("No se encontró usuario en la respuesta", res);
-            }
-        } catch (err) {
-            console.warn("No se pudo setear usuario en contexto", err);
+        // Auto-login: set user in context using API response
+        if (res.user) {
+            auth.setUser(res.user);
         }
 
         // Redirigir a home

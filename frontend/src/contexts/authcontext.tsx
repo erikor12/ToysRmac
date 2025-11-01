@@ -1,11 +1,13 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useEffect, useReducer, useMemo } from "react";
 import type { ReactNode } from "react";
-import { loginB64 } from "../utils/authClientB64";
+import { loginApi } from "../utils/authApi";
+import { persistUserToStorage, readUserFromStorage } from "../utils/session";
 
-type User = { id: string; name: string; email: string; createdAt: string } | null;
+type User = { id: number | null; name: string; email: string; createdAt: string | null } | null;
 
 type State = {
-    loading: any; user: User; ready: boolean 
+    loading: boolean; user: User; ready: boolean 
 };
 type Action =
     | { type: "login"; payload: User }
@@ -26,6 +28,8 @@ function reducer(state: State, action: Action): State {
     }
 }
 
+// persistence moved to utils/session.ts
+
 const AuthContext = createContext<{
     state: State;
     login: (emailOrName: string, password: string) => Promise<{ ok: boolean; error?: string }>;
@@ -38,49 +42,47 @@ const AuthContext = createContext<{
     logout: () => { },
 });
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     const [state, dispatch] = useReducer(reducer, initial);
 
     useEffect(() => {
         // intentar restaurar sesión desde localStorage (si guardás token/user)
         try {
-            const raw = localStorage.getItem("session_user_v1");
-            if (raw) {
-                const user = JSON.parse(raw);
-                dispatch({ type: "login", payload: user });
+            const parsed = readUserFromStorage("session_user_v1");
+            if (parsed && typeof parsed.email === 'string') {
+                dispatch({ type: "login", payload: parsed } as Action);
             }
-        } catch { }
+        } catch (e) {
+            console.warn('Failed to restore session:', e);
+        }
         dispatch({ type: "ready", payload: true });
     }, []);
 
-    function persist(user: User | null) {
-        try {
-            if (user) localStorage.setItem("session_user_v1", JSON.stringify(user));
-            else localStorage.removeItem("session_user_v1");
-        } catch { }
-    }
+    // use module-scope helper
 
     async function login(emailOrName: string, password: string) {
         // aquí asumimos email + password; si en tu UI quieres usar name en vez de email, adapta
-        const res = await loginB64(emailOrName, password);
+        const res = await loginApi(emailOrName, password);
         if (!res.ok) return { ok: false, error: res.error };
-        dispatch({ type: "login", payload: res.user ?? null });
-        persist(res.user ?? null);
+        const user = res.user ?? null;
+        dispatch({ type: "login", payload: user });
+        persistUserToStorage("session_user_v1", user);
         return { ok: true };
     }
 
     function setUser(user: User) {
         dispatch({ type: "login", payload: user });
-        persist(user);
+        persistUserToStorage("session_user_v1", user);
     }
 
     function logout() {
         dispatch({ type: "logout" });
-        persist(null);
+        persistUserToStorage("session_user_v1", null);
     }
 
+    const value = useMemo(() => ({ state, login, setUser, logout }), [state]);
     return (
-        <AuthContext.Provider value={{ state, login, setUser, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

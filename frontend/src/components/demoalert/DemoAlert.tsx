@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 export default function DemoAlert({
     localStorageKey = "seenDemoAlert",
     title = "Página de prueba",
-    message = "Esta es una versión de prueba. Los datos pueden ser ficticios y algunas funciones no están completas.",
+    message1 = "Esta es una versión de prueba. Los datos pueden ser ficticios y algunas funciones no están completas.",
+    message2 = "También es posible que la aplicación tarde en cargar los datos de la API (Productos y clientes), esto es un problema se debe a que Render la relentiza despues de 15 minutos de inactividad debido a las limitaciones del plan gratuito",
+    message3 = "Para solucionar esto, simplemente haz que aparezca el error de HTTP 500, espera un minuto y recarga la página.",
     showAlways = false, // si true ignora localStorage y muestra siempre
 }: {
     localStorageKey?: string;
     title?: string;
-    message?: string;
+    message1?: string;
+    message2?: string;
+    message3?: string;
     showAlways?: boolean;
 }) {
     const [open, setOpen] = useState(false);
@@ -21,7 +25,8 @@ export default function DemoAlert({
         try {
             const seen = window.localStorage.getItem(localStorageKey);
             if (!seen) setOpen(true);
-        } catch {
+        } catch (e) {
+            console.warn('DemoAlert: could not read localStorage', e);
             setOpen(true);
         }
     }, [localStorageKey, showAlways]);
@@ -30,7 +35,7 @@ export default function DemoAlert({
         if (neverAgain) {
             try {
                 window.localStorage.setItem(localStorageKey, "1");
-            } catch { }
+            } catch (e) { console.warn('DemoAlert: could not write localStorage', e); }
         }
         setOpen(false);
     }
@@ -45,7 +50,9 @@ export default function DemoAlert({
                 </header>
 
                 <div className="da-body">
-                    <p>{message}</p>
+                    <p>{message1}</p>
+                    <p>{message2}</p>
+                    <p>{message3}</p>
                 </div>
 
                 <footer className="da-footer">

@@ -6,4 +6,7 @@ router.get('/', clientsController.getAll);
 
 router.get("/search", clientsController.search);
 
+router.post('/', clientsController.addClient);
+router.post('/login', clientsController.login);
+
 module.exports = router;
