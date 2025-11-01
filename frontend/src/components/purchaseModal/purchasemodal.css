@@ -1,51 +1,180 @@
+/* Tokens */
+:root {
+    --pm-overlay-bg: rgba(11, 26, 43, 0.55);
+    --pm-card-bg: #ffffff;
+    --pm-accent: #0058A3;
+    /* Ikea blue */
+    --pm-accent-weak: rgba(0, 88, 163, 0.08);
+    --pm-text: #0b1a2b;
+    --pm-muted: #405a6b;
+    --pm-radius: 12px;
+    --pm-gap: 14px;
+    --pm-shadow: 0 14px 36px rgba(11, 26, 43, 0.12);
+    --pm-z: 3000;
+    --pm-max-width: 480px;
+    --pm-padding: 20px;
+    --pm-btn-radius: 10px;
+}
+
+/* Overlay (full screen clickable button) */
 .pm-overlay {
     position: fixed;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(3, 8, 18, 0.48);
-    z-index: 130;
-}
-
-.pm-card {
-    width: min(680px, 92%);
-    background: #fff;
-    border-radius: 12px;
-    padding: 18px;
-    box-shadow: 0 18px 40px rgba(6, 18, 33, 0.12);
-}
-
-.pm-title {
-    margin: 0 0 8px 0;
-    font-size: 1.25rem;
-}
-
-.pm-body ul {
-    margin: 8px 0;
-    padding-left: 18px;
-    color: #223;
-}
-
-.pm-total {
-    margin-top: 12px;
-    font-weight: 700;
-}
-
-.pm-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
-}
-
-.pm-btn {
-    padding: 8px 12px;
-    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--pm-overlay-bg);
+    padding: 24px;
     border: 0;
+    z-index: var(--pm-z);
     cursor: pointer;
 }
 
+/* Prevent default button appearance */
+.pm-overlay:focus {
+    outline: none;
+}
+
+/* Card (dialog) */
+.pm-card {
+    width: 100%;
+    max-width: var(--pm-max-width);
+    background: var(--pm-card-bg);
+    color: var(--pm-text);
+    border-radius: var(--pm-radius);
+    box-shadow: var(--pm-shadow);
+    border: 1px solid rgba(2, 6, 23, 0.04);
+    padding: 0;
+    box-sizing: border-box;
+    transform-origin: center;
+    cursor: default;
+}
+
+/* Layout */
+.pm-header,
+.pm-footer {
+    padding: var(--pm-padding);
+    display: flex;
+    align-items: center;
+    gap: var(--pm-gap);
+}
+
+.pm-body {
+    padding: 0 var(--pm-padding) var(--pm-padding);
+    color: var(--pm-muted);
+    font-size: 0.98rem;
+    line-height: 1.45;
+}
+
+/* Title */
+.pm-title {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--pm-accent);
+    font-weight: 800;
+    letter-spacing: 0.2px;
+}
+
+/* List */
+.pm-body ul {
+    margin: 0 0 12px 0;
+    padding: 0 0 0 18px;
+}
+
+.pm-body li {
+    margin: 6px 0;
+}
+
+/* Total row */
+.pm-total {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--pm-text);
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--pm-accent-weak), transparent 60%);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Footer and buttons */
+.pm-footer {
+    border-top: 1px solid rgba(2, 6, 23, 0.03);
+    justify-content: flex-end;
+}
+
+.pm-btn {
+    border-radius: var(--pm-btn-radius);
+    padding: 10px 14px;
+    font-weight: 800;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--pm-text);
+    text-transform: none;
+}
+
+.pm-btn:focus {
+    outline: none;
+    box-shadow: 0 8px 20px rgba(0, 88, 163, 0.12);
+}
+
+/* Primary variant */
 .pm-btn-primary {
-    background: #0058A3;
-    color: #fff
+    background: var(--pm-accent);
+    color: #fff;
+    border-color: rgba(0, 88, 163, 0.08);
+}
+
+.pm-btn-primary:hover {
+    background: #004a8a;
+    transform: translateY(-1px);
+}
+
+/* Animation in */
+.pm-overlay .pm-card {
+    animation: pm-pop 180ms cubic-bezier(.2, .9, .2, 1);
+}
+
+@keyframes pm-pop {
+    from {
+        transform: translateY(-6px) scale(0.996);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .pm-overlay .pm-card {
+        animation: none;
+    }
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    :root {
+        --pm-padding: 16px;
+        --pm-max-width: 420px;
+    }
+
+    .pm-body {
+        font-size: 0.96rem;
+    }
+
+    .pm-title {
+        font-size: 1.05rem;
+    }
+
+    .pm-total {
+        padding: 8px;
+    }
+
+    .pm-footer {
+        padding: 12px 16px;
+    }
 }
