@@ -249,3 +249,32 @@
         gap: 10px;
     }
 }
+
+/* banner de agradecimiento */
+.checkout-thanks {
+    position: fixed;
+    right: 28px;
+    /* ajustá para que no tape elementos importantes */
+    top: calc(var(--navbar-height, 72px) + 18px);
+    background: linear-gradient(90deg, #ffecb3, #fff7e6);
+    color: #0b1a2b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(11, 26, 43, 0.12);
+    font-weight: 800;
+    z-index: 2000;
+    transform-origin: top right;
+    animation: thanks-in 220ms ease;
+}
+
+@keyframes thanks-in {
+    from {
+        transform: translateY(-6px) scale(0.98);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
