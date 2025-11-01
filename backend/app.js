@@ -75,7 +75,7 @@ if (enablePinger) {
   // Reloader Function
   async function reloadWebsite() {
     try {
-      const response = await axios.get(defaultUrl, { timeout: 5000 });
+      const response = await axios.get(`${defaultUrl}/health`, { timeout: 5000 });
       console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
     } catch (error) {
       // log error message but don't throw
